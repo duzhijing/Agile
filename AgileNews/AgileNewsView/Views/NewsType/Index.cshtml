@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Content/jquery-3.1.1.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <div> 
+        <table id="td">
+            <tr>
+                <td>新闻ID</td>
+                <td>新闻类别</td>
+                <td>操作</td>
+            </tr>        
+           
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url: 'http://localhost:57393/GetNewsTypes',
+            type: "get",
+            success: function (data) {
+                $(data).each(function (index,data) {
+                    var str = "";
+                    str += "<tr>";
+                    str += "<td>" + data.NewsTypeID + "</td>";
+                    str += "<td>" + data.NewsTypeName + "</td>";
+                    str += "<td><a href=\"#\" onclick=\"Delete(" + data.NewsTypeID + ",this)\">删除</a></td>";
+                    str += "</tr>";
+                    $("#td").append(str);
+                })
+            }
+        })
+    })
+    function Delete(id, obj) {
+        if (confirm("确定删除吗")) {
+            $.ajax({
+                url: "http://localhost:57393/NewsTypeDelete",
+                data: { newsTypeId: id },
+                type:'get',
+                success: function (data) {
+                    if (data > 0) {
+                        $(obj).parent().parent().remove();
+                        alert('删除成功')
+                    }
+                    else {
+                        alert('删除失败')
+                    }
+                }
+            })
+        }
+        
+    }
+</script>

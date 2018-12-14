@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+
+
+   
+
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <script src="~/Content/jquery-3.1.1.js"></script>
+        <title>Index</title>
+        <script>
+            $(function () {
+                $.ajax({
+                    url: 'http://localhost:57393/GetNews',
+                    type: "get",
+                    success: function (data) {
+                        $(data).each(function (index, data) {
+                            var str = "";
+                            str += "<tr>";
+                            str += "<td>" + data.NewsID + "</td>";
+                            str += "<td>" + data.NewsTitle + "</td>";
+                            str += "<td>" + data.NewsPublisher + "</td>";
+                            str += "<td>" + data.NewsPublishDate + "</td>";
+                            str += "<td>" + data.NewsDetails + "</td>";
+                            str += "<td>" + data.NewsSort + "</td>";
+                            str += "<td><a href=\"#\" onclick=\"Delete(" + data.NewsID + ",this)\">删除</a></td>";
+                            str += "</tr>";
+                            $("#td").append(str);
+                        })
+                    }
+                })
+            })
+            function Delete(id, obj) {
+                if (confirm("确定删除吗")) {
+                    $.ajax({
+                        url: "http://localhost:57393/NewsDelete",
+                        data: { newsId: id },
+                        type: 'get',
+                        success: function (data) {
+                            if (data > 0) {
+                                $(obj).parent().parent().remove();
+                                alert('删除成功')
+                            }
+                            else {
+                                alert('删除失败')
+                            }
+                        }
+                    })
+                }
+
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <table id="td">
+                <tr>
+                    <td>新闻标题</td>
+                    <td>新闻内容</td>
+                    <td>新闻类别</td>
+                    <td>发布时间</td>
+                    <td>摘自</td>
+                    <td>操作</td>
+                </tr>
+
+            </table>
+        </div>
+    </body>
+    </html>
