@@ -18,7 +18,17 @@ namespace AgileNewsService
     using Dapper;
     public class NewsTypeService : INewsTypeService
     {
-       
+        public List<News> GetNewsByIds(string typeids)
+        {
+            using (OracleConnection conn = DapperHelper.GetConnString())
+            {
+                string sql = @"select * from News where NewsTypeName=:NewsTypeName";
+                var conditon = new { NewsTypeName = typeids };
+                var result = conn.Query<News>(sql, conditon);
+                return result.ToList<News>();
+            }
+        }
+
         /// <summary>
         /// 显示
         /// </summary>
@@ -81,5 +91,6 @@ namespace AgileNewsService
                 return i;
             }
         }
+
     }
 }

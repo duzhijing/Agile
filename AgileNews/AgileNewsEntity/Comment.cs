@@ -20,7 +20,7 @@ namespace AgileNewsEntity
         /// <summary>
         /// 用户PID
         /// </summary>
-        public int UserPID { get; set; }
+        public int UserID { get; set; }
         /// <summary>
         /// 新闻PID
         /// </summary>

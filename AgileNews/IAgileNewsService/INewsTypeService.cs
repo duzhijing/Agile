@@ -16,6 +16,7 @@ namespace IAgileNewsService
         List<NewsType> GetNewsTypes();
         int NewsTypeDelete(int newsTypeId);
         int NewsTypeUpdate(NewsType newsType);
+        List<News> GetNewsByIds(string typeids);
     }
-
 }
+

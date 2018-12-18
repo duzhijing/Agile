@@ -96,5 +96,12 @@ namespace AgileNews.Controllers
             var result = NewsTypeService.NewsTypeUpdate(newsType);
             return result;
         }
+        [Route("GetNewsByIds")]
+        [HttpGet]
+        public List<News> GetNewsByIds(string typeids)
+        {
+            var result = NewsTypeService.GetNewsByIds(typeids);
+            return result;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace AgileNewsService
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
                 conn.Open();
-                string sql = string.Format("insert into Comment values(@UserPID,@NewsPID,@CommentCreate,@CommentUpdate,@CommentContent,@IsDelete)");
+                string sql = string.Format("insert into Commente(UserID,NewsPID,CommentCreate,CommentContent) values(:UserID,:NewsPID,:CommentCreate,:CommentContent)");
                 int i = conn.Execute(sql, comment);
                 return i;
             }

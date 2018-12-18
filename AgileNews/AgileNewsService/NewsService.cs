@@ -33,7 +33,6 @@ namespace AgileNewsService
             }
 
 
-
         }
 
         /// <summary>

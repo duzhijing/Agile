@@ -17,7 +17,7 @@ namespace AgileNews.Controllers
     using System.Web.Http.Controllers;
 
 
-    [RoutePrefix("Collerct")]
+    [RoutePrefix("Collect")]
     public class CollectController : ApiController//AuthorizeAttribute
     {
 
@@ -74,9 +74,13 @@ namespace AgileNews.Controllers
         /// </summary>
         /// <param name="collect"></param>
         /// <returns></returns>
-        [HttpPost]
-        public int AddCollect(Collect collect)
+        [Route("CollectAdd")]
+        [HttpGet]
+        public int AddCollect(int userPID, int newsPID)
         {
+            Collect collect = new Collect();
+            collect.UserPID = userPID;
+            collect.NewsPID = newsPID;
             var result = CollectService.CollectAdd(collect);
             return result;
         }

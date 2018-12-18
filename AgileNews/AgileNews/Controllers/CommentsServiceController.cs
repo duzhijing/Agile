@@ -17,7 +17,7 @@ namespace AgileNews.Controllers
     using System.Web.Http.Controllers;
 
 
-    [RoutePrefix("CommentsService")]
+    [RoutePrefix("Commentes")]
     public class CommentsServiceController : ApiController//AuthorizeAttribute
     {
 
@@ -59,9 +59,15 @@ namespace AgileNews.Controllers
 
         [Dependency]
         public ICommentsService CommentsService { get; set; }
-       [HttpPost]
-        public int CommentsAdd(Comment comment)
+        [Route("CommentsAdd")]
+        [HttpGet]
+        public int CommentsAdd(string commentContent, string commentCreate, int newsPID, int userID)
         {
+            Comment comment = new Comment();
+            comment.CommentContent = commentContent;
+            comment.CommentCreate = commentCreate;
+            comment.NewsPID = newsPID;
+            comment.UserID = userID;
             var result = CommentsService.CommentsAdd(comment);
             return result;
         }
@@ -77,7 +83,8 @@ namespace AgileNews.Controllers
             var result = CommentsService.ConmmentsDelete(CommentsID);
             return result;
         }
-
+        [Route("GetComments")]
+        [HttpGet]
         public List<Comment> GetComments()
         {
             var CommentList = CommentsService.GetComments();
