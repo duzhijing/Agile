@@ -1,0 +1,133 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="~/Content/jquery-3.1.1.js"></script>
+    <title>Add</title>
+    <script>
+        $(function () {
+            $.ajax({
+                url: 'http://localhost:57393/GetNewsTypes',
+                type: "get",
+                success: function (data) {
+                    $(data).each(function (index, data) {
+                        var str = "";
+                        str += "<tr>";
+                        str += "<td>" + data.NewsTypeID + "</td>";
+                        str += "<td>" + data.NewsTypeName + "</td>";
+
+                        str += "</tr>";
+                        $("#td").append(str);
+                    })
+                }
+            })
+            $("#Button1").click(function () {
+                $.ajax({
+                    url: 'http://localhost:57393/NewsAdd',
+                    type: "post",
+                    data: $("#formdata").serialize(),
+                    success: function (d) {
+                        if (d > 0)
+                            alert('添加成功')
+                    }
+
+
+                })
+            })
+        })
+
+    </script>
+</head>
+        <body>
+
+
+
+            <div>
+                <form id="formdata">
+
+                    <table>
+                        <tr>
+                            <td>新闻标题</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsTitle" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>新闻内容</td>
+                            <td>
+                                <textarea id="TextArea1" rows="5" cols="20" name="NewsPublisher"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>新闻类别</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsDetails" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发布时间</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsPublishDate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>摘自</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsSort" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>新闻阅读人数</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsReader" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>新闻修改时间</td>
+                            <td>
+                                <input id="Text1" type="text" name="NewsUpdateDate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>关键词
+                                <input id="Text1" type="text" name="NewsTypeID" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>新闻来自
+                                <input id="Text1" type="text" name="IsDelete" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input id="Text1" type="text" name="LikeTablePid" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input id="Button1" type="button" value="新闻添加" />
+                                <input id="Button1" type="button" value="显示" onclick="location.href='/News/index'" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </body>
+    </html>

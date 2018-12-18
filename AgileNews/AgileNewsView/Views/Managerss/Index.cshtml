@@ -1,0 +1,188 @@
+﻿
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+@inherits System.Web.Mvc.WebViewPage
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Agile-后台管理模板</title>
+    <link href="~/css/layui.css" rel="stylesheet" id="layui" />
+    <link href="~/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="~/css/kitadmin.css" rel="stylesheet" id="kitadmin" />
+    <style>
+    </style>
+
+</head>
+
+<body layadmin-themealias="default" style="">
+    <div class="layui-fluid">
+        <!-- header -->
+        <!-- silds -->
+        <!-- main -->
+        <div>
+            <div>
+
+                <span class="layui-inline">
+                    <label class="layui-form-label">
+                        员工姓名
+                    </label>
+
+                    <span class="layui-input-inline">
+                        <input class="layui-input" type="text" placeholder="请输入标题" autocomplete="off" name="ManagersName" />
+                    </span>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnSearch()">
+                        搜索
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Managerss/AddManagers'">
+                        注册新用户
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Power/Index'">
+                        权限列表
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Role/Index'">
+                        角色列表
+                    </button>
+                </span>
+            </div>
+
+            <div>
+                <table id="tab" class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="width:100px;">用户Id</td>
+                        <td style="width:100px;">用户名</td>
+                        <td style="width:100px;">创建时间</td>
+                        @*<td style="width:100px;">修改时间</td>*@
+                        <td style="width:100px;">角色</td>
+                        <td style="width:100px;">操作</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="float:left">
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnFirst()">
+                    首页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnPrev()">
+                    上一页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnNext()">
+                    下一页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnLast()">
+                    尾页
+                </button>
+            </div>
+
+
+        </div>
+        <!-- footer -->
+    </div>
+    <script src="~/polyfill.min.js"></script>
+    <script src="~/layui.js"></script>
+    <script src="~/kitadmin.js"></script>
+    <script src="~/mockjs-config.js"></script>
+    <script src="~/Content/jquery-3.3.1.js"></script>
+    @*<script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
+        <script>layui.use("admin");</script>*@
+
+</body>
+
+</html>
+<script type="text/javascript">
+    //当前页
+    var currentpage = 1;
+    //总页数
+    var totalpage = 0;
+    //文档就绪函数
+    $(function () {
+        show();
+    })
+    //显示方法
+    function show() {
+        $.ajax({
+            url: "http://localhost:8088/GetManagers",
+            type: "get",
+            success: function (data) {
+                $("#tab tr").not(":first").remove();
+                $(data).each(function (index, data) {
+                    var str = "<tr>";
+                    str += "<td>" + data.Id + "</td>";
+                    str += "<td>" + data.ManagersName + "</td>";
+                    str += "<td>" + data.CreateTime + "</td>";
+                    //str += "<td>" + data.ModifyTime + "</td>";
+                    str += "<td>" + data.RoleName + "</td>";
+                    str += "<td><a onclick='Delete(" + data.Id + ")'>删除</a><a href='/Managerss/UpdateManagers?Id=" + data.Id + "'>修改</a></li>";
+                    str += "</tr>";
+                    $("#tab").append(str);
+
+                })
+            }
+        })
+    }
+    function Delete(Id) {
+        $.ajax({
+            url: "http://localhost:8088/DeleteManagers",
+            type: "get",
+            data: {
+                Id: Id
+            },
+            success: function (data) {
+                if (data > 0) {
+                    alert("删除成功!");
+                    show();
+                }
+                else {
+                    alert("删除失败!");
+                }
+            }
+        })
+    }
+    //首页
+    function btnFirst() {
+        currentpage = 1;
+        show();
+    }
+    //上一页
+    function btnPrev() {
+        if (currentpage - 1 <= 0) {
+            alert("这已经是第一页了");
+            return;
+        }
+        currentpage--;
+        show();
+    }
+    //下一页
+    function btnNext() {
+        if (currentpage + 1 > totalpage) {
+            alert("这已经是最后一页了");
+            return;
+        }
+        currentpage++;
+        show();
+    }
+    //最后一页
+    function btnLast() {
+        currentpage = totalpage;
+        show();
+    }
+    //搜索
+    function btnSearch() {
+        show();
+    }
+
+</script>
+
+

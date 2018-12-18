@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Content/jquery-3.1.1.js"></script>
+    <title>Add</title>
+    <script>
+        $(function () {
+            $("#Button1").click(function () {
+                $.ajax({
+                    url: 'http://localhost:8088/NewsTypeService/NewsTypeAdd',
+                    type: "post",
+                    data: $("#formdata").serialize(),
+                    success: function (d) {
+                        if(d>0)
+                        alert('添加成功');
+                    }
+                })
+            })
+           
+        })
+    </script>
+</head>
+<body>
+    <div> 
+        <form id="formdata">
+
+            <table>
+                <tr>
+                    <td>新闻类别添加</td>
+                    <td>
+                        <input id="Text1" type="text" name="NewsTypeName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="Button1" type="button" value="新增" />
+                        <input id="Button1" type="button" value="显示" onclick="location.href='/NewsType/index'"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Content/jquery-3.1.1.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <table id="td">
+            <tr>
+                <td>登录名</td>
+                <td>密码</td>
+                <td>角色</td>
+                <td>创建时间</td>
+                <td>是否启用</td>
+                <td>操作</td>
+               
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url: 'http://localhost:8088/AdminPersonService/GetAdminPerson',
+            type: "get",
+            success: function (data) {
+                $(data).each(function (index, data) {
+                    var str = "";
+                    str += "<tr>";
+                    str += "<td>" + data.AdminPersonID + "</td>";
+                    str += "<td>" + data.AdminPersonName + "</td>";
+                    str += "<td>" + data.AdminPersonPassword + "</td>";
+                    str += "<td>" + data.AdminCreateDate + "</td>";
+                    str += "<td>" + data.AdminUpdate + "</td>";
+                    str += "<td>" + data.AdminInfo + "</td>";
+                    str += "<td><a href=\"#\" onclick=\"Delete(" + data.AdminPersonID + ",this)\">删除</a></td>";
+                    str += "</tr>";
+                    $("#td").append(str);
+                })
+            }
+        })
+    })
+    function Delete(id, obj) {
+        if (confirm("确定删除吗")) {
+            $.ajax({
+                url: "http://localhost:8088/AdminPersonService/AdminPersonDelete",
+                data: { adminpersonId: id },
+                type: 'get',
+                success: function (data) {
+                    if (data > 0) {
+                        $(obj).parent().parent().remove();
+                        alert('删除成功')
+                    }
+                    else {
+                        alert('删除失败')
+                    }
+                }
+            })
+        }
+
+    }
+</script>

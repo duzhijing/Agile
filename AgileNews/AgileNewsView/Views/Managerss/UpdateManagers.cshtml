@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateManagers</title>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <link href="~/css/layui.css" rel="stylesheet" id="layui" />
+    <link href="~/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="~/css/kitadmin.css" rel="stylesheet" id="kitadmin" />
+</head>
+<body>
+    <div>
+        <h1>修改用户</h1>
+        <hr />
+        <p>用户名称：<input type="text" name="ManagersName" /></p>
+        <div class="layui-form-item">
+            <p>
+                选择角色：
+            </p>
+            <div id="dl1" class="layui-input-block">
+
+            </div>
+        </div>
+        <div>
+            <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="Add()">
+                保存
+            </button>
+        </div>
+    </div>
+    <script src="~/polyfill.min.js"></script>
+    <script src="~/layui.js"></script>
+    <script src="~/kitadmin.js"></script>
+    <script src="~/mockjs-config.js"></script>
+    <script src="~/DateControl/WdatePicker.js"></script>
+    <script src="~/Content/echarts.min.js"></script>
+</body>
+</html>
+<script>
+
+    $(function () {
+        Show();
+        GetPowerById();
+    })
+    /* 权限加载方法*/
+    function Show() {
+        $.ajax({
+            url: 'http://localhost:8088/GetRole',
+            type: 'get',
+            success: function (data) {
+                var list = '<ul>';
+                $(data).each(function (index, data) {
+                    list += ''
+                        + '<li> <input type="checkbox" name="RoleName" value="' + data.Id + '">' + data.RoleName + '</li>'
+                        + ''
+                })
+                list += '</ul>'
+                $("#dl1").append(list);
+            }
+        })
+    }
+    function Add() {
+        var Ids = [];
+        $("input[name=RoleName]:checked").each(function () {
+            Ids.push($(this).val())
+        })
+        var RoleName = [];
+        $("input[name=RoleName]:checked").each(function () {
+            RoleName.push($(this).parent().text())
+        })
+        $.ajax({
+            url: "http://localhost:8088/UpdateManagers",
+            type: "post",
+            data: {
+                Id:"@Request.QueryString["Id"]",
+                ManagersName: $("input[name=ManagersName]").val(),
+                RoleId: Ids.join(','),
+                RoleName: RoleName.join(',')
+            },
+            //"{RoleName:'" + $("input[name=RoleName]").val() + "',PowerId:'" + Ids + "',PowerName:'" + PowerNames + "'}",
+            dataType: "json",
+            success: function (d) {
+                if (d > 0) {
+                    alert("修改成功！");
+                }
+                else {
+                    alert("修改失败！");
+                }
+            }
+        })
+    }
+     function GetPowerById() {
+            $.ajax({
+                url: "http://localhost:8088/GetManagersById",
+                type: "get",
+                data: {
+                    Id:"@Request.QueryString["Id"]"
+                },
+                success: function (data) {
+                    $("input[name=ManagersName]").val(data[0].ManagersName);
+                    var RolesIds = data[0].RoleId;
+                    var attr = RolesIds.split(",");
+                    $(attr).each(function (index,data) {
+                        console.log(data );
+                        $("[value=" + this + "]").prop("checked","checked");
+                    })
+                }
+            })
+        }
+</script>

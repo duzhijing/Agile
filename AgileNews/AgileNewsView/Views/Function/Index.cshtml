@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="~/Content/jquery-3.1.1.js"></script>
+    <title>Index</title>
+    <script>
+        $(function () {
+            $.ajax({
+                url: 'http://localhost:8088/api/FunctionService/GetFunctions',
+                type: "get",
+                success: function (data) {
+                    $(data).each(function (index, data) {
+                        var str = "";
+                        str += "<tr>";
+                        //str += "<td>" + data.FunctionID + "</td>";
+                        str += "<td>" + data.FunctionName + "</td>";
+                        str += "<td>" + data.FunctionURL + "</td>";
+                        str += "<td>" + data.FunctionDesr + "</td>";
+                        str += "<td>" + data.FunctionStatus + "</td>";
+
+                        str += "<td><a href=\"#\" onclick=\"Delete(" + data.FunctionID + ",this)\">删除</a></td>";
+                        str += "</tr>";
+                        $("#td").append(str);
+                    })
+                }
+            })
+        })
+        function Delete(id, obj) {
+            if (confirm("确定删除吗")) {
+                $.ajax({
+                    url: "http://localhost:8088/api/FunctionService/FunctionDelete",
+                    data: { functionId: id },
+                    type: 'get',
+                    success: function (data) {
+                        if (data > 0) {
+                            $(obj).parent().parent().remove();
+                            alert('删除成功')
+                        }
+                        else {
+                            alert('删除失败')
+                        }
+                    }
+                })
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <table id="td">
+            <tr>
+                <td>权限名称</td>
+                <td>URL</td>
+                <td>启用</td>
+                <td>禁用</td>
+
+                <td>操作</td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>

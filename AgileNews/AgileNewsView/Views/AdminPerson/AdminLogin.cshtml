@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Content/jquery-3.1.1.js"></script>
+
+    <title>Agile登录</title>
+</head>
+<body>
+    <div> 
+        
+        <div>
+            <form id="form0">
+                <p>
+                    用户名:<input type="text" name="AdminPersonName" /><span id="spAdminPersonName"></span>
+                </p>
+               
+                <p>
+                    确认密码:<input type="text" name="AdminPersonPassword" /><span id="spAdminPersonPassword0"></span>
+                </p>
+               
+                <p>
+                    <input type="button" value="登录" onclick="AdminPersonAdd()" />
+                </p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $("input").focus();
+        $("[name=AdminPersonName]").blur(function () {
+            if ($("[name=AdminPersonName]").val() == "")
+                $("#spAdminPersonName").html("密码不能为空");
+            else
+                $("#spAdminPersonName").html("");
+        });
+    })
+
+    function AdminPersonAdd() {
+        $.ajax({
+            url: "/AdminPerson/AdminLogin",
+            type: "post",
+            data: $("#form0").serialize(),
+            success: function (d) {
+                console.log(d);
+                if (d > 0)
+                   alert('添加成功')
+            }
+        })
+        
+    }
+</script>
