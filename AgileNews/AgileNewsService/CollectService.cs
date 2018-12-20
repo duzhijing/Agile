@@ -56,7 +56,7 @@ namespace AgileNewsService
         {
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
-                string sql = string.Format("select * from Collect");
+                string sql = string.Format(@"select N.NEWSTITLE,N.NEWSSORT,N.NEWSPUBLISHDATE from Collect c, News n where NewsPID=NEWSID");
                 var result = conn.Query<Collect>(sql, null);
                 return result.ToList<Collect>();
             }

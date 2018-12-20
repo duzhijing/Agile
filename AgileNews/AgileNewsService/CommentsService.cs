@@ -33,7 +33,7 @@ namespace AgileNewsService
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
                 conn.Open();
-                string sql = "Update Comment set UserPID=@UserPID,NewsPID=@NewsPID,CommentCreate=@CommentCreate,CommentUpdate=@CommentUpdate,CommentContent=@CommentContent,IsDelete=@IsDelete";
+                string sql = "Update Commente set UserPID=@UserPID,NewsPID=@NewsPID,CommentCreate=@CommentCreate,CommentUpdate=@CommentUpdate,CommentContent=@CommentContent,IsDelete=@IsDelete";
                 int i = conn.Execute(sql, comment);
                 return i;
 
@@ -45,7 +45,7 @@ namespace AgileNewsService
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
                 conn.Open();
-                string sql = string.Format(@"delete Comments where CommentsID =:CommentsID");
+                string sql = string.Format(@"delete Commente where CommentsID =:CommentsID");
                 int i = conn.Execute(sql, new { CommentsID = CommentsID });
                 return i;
             }
@@ -55,7 +55,7 @@ namespace AgileNewsService
         {
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
-                string sql = string.Format("select * from Comment");
+                string sql = string.Format("select * from Commente");
                 var result = conn.Query<Comment>(sql, null);
                 return result.ToList<Comment>();
             }

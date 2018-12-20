@@ -62,8 +62,8 @@ namespace AgileNews.Controllers
         /// 显示
         /// </summary>
         /// <returns></returns>
+        [Route("GetCollects")]
         [HttpGet]
-
         public List<Collect> GetCollects()
         {
             var CollectList = CollectService.GetCollects();
