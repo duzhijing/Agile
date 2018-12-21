@@ -60,6 +60,7 @@ namespace AgileNewsEntity
        ///关键字
         /// </summary>
         public string Category { get; set; }
+        public String Image { get; set; }
 
 
     }

@@ -25,58 +25,88 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-<div class="page-container">
-	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="">
-		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
-	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
-	<table class="table table-border table-bordered table-bg">
-		<thead>
-			<tr>
-				<th scope="col" colspan="9">员工列表</th>
-			</tr>
-			<tr class="text-c">
-				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="40">ID</th>
-                <th width="150">登录名</th>
-                <th width="90">密码</th>
-                <th width="150">角色</th>
-                <th>创建时间</th>
-               
-				
-				<th width="100">操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
-				<td>1</td>
-				<td>admin</td>
-				<td>13000000000</td>
-				<td>admin@mail.com</td>
-				<td>超级管理员</td>
-				<td>2014-6-11 11:11:42</td>
-				<td class="td-status"><span class="label label-success radius">已启用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
-			<tr class="text-c">
-				<td><input type="checkbox" value="2" name=""></td>
-				<td>2</td>
-				<td>zhangsan</td>
-				<td>13000000000</td>
-				<td>admin@mail.com</td>
-				<td>栏目编辑</td>
-				<td>2014-6-11 11:11:42</td>
-				<td class="td-status"><span class="label radius">已停用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="admin_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','2','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+
+    <div class="layui-fluid">
+        <!-- header -->
+        <!-- silds -->
+        <!-- main -->
+        <div>
+            <div>
+
+                <span class="layui-inline">
+                    <label class="layui-form-label">
+                        员工姓名
+                    </label>
+
+                    <span class="layui-input-inline">
+                        <input class="layui-input" type="text" placeholder="请输入标题" autocomplete="off" name="ManagersName" />
+                    </span>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnSearch()">
+                        搜索
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Managerss/AddManagers'">
+                        注册新用户
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Power/Index'">
+                        权限列表
+                    </button>
+                </span>
+                <span>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Role/Index'">
+                        角色列表
+                    </button>
+                </span>
+            </div>
+
+            <div>
+                <table id="tab" class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="width:100px;">用户Id</td>
+                        <td style="width:100px;">用户名</td>
+                        <td style="width:100px;">创建时间</td>
+                        <td style="width:100px;">修改时间</td>
+                        <td style="width:100px;">角色</td>
+                        <td style="width:100px;">操作</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="float:left">
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnFirst()">
+                    首页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnPrev()">
+                    上一页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnNext()">
+                    下一页
+                </button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnLast()">
+                    尾页
+                </button>
+            </div>
+
+
+        </div>
+        <!-- footer -->
+    </div>
+    <script src="~/polyfill.min.js"></script>
+    <script src="~/layui.js"></script>
+    <script src="~/kitadmin.js"></script>
+    <script src="~/mockjs-config.js"></script>
+    <script src="~/Content/jquery-3.3.1.js"></script>
+    @*
+    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
+    <script>layui.use("admin");</script>*@
+
+</body>
+<body>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
@@ -88,6 +118,95 @@
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+    //当前页
+    var currentpage = 1;
+    //总页数
+    var totalpage = 0;
+    //文档就绪函数
+    $(function () {
+        show();
+    })
+    //显示方法
+    function show() {
+        $.ajax({
+            url: "http://localhost:8088/Managers/GetManagers",
+            type: "get",
+            success: function (data) {
+                $("#tab tr").not(":first").remove();
+                $(data).each(function (index, data) {
+                    var str = "<tr>";
+                    str += "<td>" + data.Id + "</td>";
+                    str += "<td>" + data.ManagersName + "</td>";
+                    str += "<td>" + data.CreateTime + "</td>";
+                    str += "<td>" + data.ModifyTime + "</td>";
+                    str += "<td>" + data.RoleName + "</td>";
+                    str += "<td><a onclick='Delete(" + data.Id + ")'>删除</a><a href='/Managerss/UpdateManagers?Id=" + data.Id + "'>修改</a></li>";
+                    str += "</tr>";
+                    $("#tab").append(str);
+
+                })
+            }
+        })
+    }
+    function Delete(Id) {
+        $.ajax({
+            url: "http://localhost:8088/Managers/DeleteManagers",
+            type: "get",
+            data: {
+                Id: Id
+            },
+            success: function (data) {
+                if (data > 0) {
+                    alert("删除成功!");
+                    show();
+                }
+                else {
+                    alert("删除失败!");
+                }
+            }
+        })
+    }
+    //首页
+    function btnFirst() {
+        currentpage = 1;
+        show();
+    }
+    //上一页
+    function btnPrev() {
+        if (currentpage - 1 <= 0) {
+            alert("这已经是第一页了");
+            return;
+        }
+        currentpage--;
+        show();
+    }
+    //下一页
+    function btnNext() {
+        if (currentpage + 1 > totalpage) {
+            alert("这已经是最后一页了");
+            return;
+        }
+        currentpage++;
+        show();
+    }
+    //最后一页
+    function btnLast() {
+        currentpage = totalpage;
+        show();
+    }
+    //搜索
+    function btnSearch() {
+        show();
+    }
+
+
+
+
+
+
+
+
+
 
 function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
@@ -126,7 +245,7 @@ function admin_start(obj,id){
 </body>
 </html>
 
-<script>
+<!--<script>
     $(function () {
         $.ajax({
             url: 'http://localhost:8088/GetAdminPerson',
@@ -189,4 +308,4 @@ function admin_start(obj,id){
             })
         }
     })
-</script>
+</script>-->

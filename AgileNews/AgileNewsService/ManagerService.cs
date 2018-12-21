@@ -106,9 +106,9 @@ namespace AgileNewsService
         {
             using (OracleConnection conn = DapperHelper.GetConnString())
             {
+               
                 string sql = @"select Id,ManagersName,ManagersPsw from Managers where ManagersName=:ManagersName and ManagersPsw=:ManagersPsw";
-                var conditon = new { ManagersName = ManagersName, ManagersPsw = ManagersPsw };
-                var managers = conn.Query<Managers>(sql, conditon).FirstOrDefault();
+                var managers = conn.Query<Managers>(sql, new { ManagersName = ManagersName, ManagersPsw = ManagersPsw }).FirstOrDefault();
                 if (managers != null)
                 {
                     string sql2 = @"select * from power where id in(select  powerid  from roleaction where roleid in(select roleid from userrole where userid=(select id from managers where managersname=:ManagersName and managerspsw=:ManagersPsw)))";

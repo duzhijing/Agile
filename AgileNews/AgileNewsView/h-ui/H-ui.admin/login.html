@@ -10,9 +10,10 @@
     <link href="static/h-ui.admin/css/H-ui.login.css" rel="stylesheet" type="text/css" />
     <link href="static/h-ui.admin/css/style.css" rel="stylesheet" type="text/css" />
     <link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
-    <script src="../../Content/jquery-3.1.1.js"></script>
- 
-    <script src="../../Content/Scripts/jquery-1.10.2.js"></script>
+   
+    <script src="../../Scripts/jquery-3.1.1.js"></script>
+    <script src="../../Scripts/jquery.form.js"></script>
+
     <title>Agile-后台管理</title>
     <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
@@ -26,13 +27,13 @@
           <div class="row cl">
               <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
               <div class="formControls col-xs-8">
-                  <input  name="AdminPersonName" type="text" placeholder="账户" class="input-text size-L">
+                  <input  name="ManagersName" type="text" placeholder="账户" class="input-text size-L">
               </div>
           </div>
           <div class="row cl">
               <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
               <div class="formControls col-xs-8">
-                  <input name="AdminPersonPassword" type="password" placeholder="密码" class="input-text size-L">
+                  <input name="ManagersPsw" type="password" placeholder="密码" class="input-text size-L">
               </div>
           </div>
           <!--<div class="row cl">
@@ -50,7 +51,7 @@
           </div>
           <div class="row cl">
               <div class="formControls col-xs-8 col-xs-offset-3">
-                  <input name="" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;" onclick="AdminPersonAdd()" >
+                  <input id="LoginBtn" name="" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;"  >
                   <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
               </div>
           </div>
@@ -73,21 +74,32 @@
     //            $("#spAdminPersonName").html("");
     //    });
     //})
- 
-    function AdminPersonAdd() {
+    $(function () {
 
-        $.ajax({
-            url: "/AdminPerson/AdminLogin",
-            type: "post",
-            data: $("#form0").serialize(),
-            success: function (d) {
-                console.log(d);
-                if (d > 0) {
-                    alert('添加成功');
-                    location.href = "index.html";
+        $("#LoginBtn").click(function () {
+            
+            $.ajax({
+                url: "http://localhost:8088/Managers/HouTaiLogin",
+                type: "get",
+                data: $("#form0").serialize(),
+                success: function (d) {
+                    //console.log(d);
+                    if (d) {
+                        alert('登录成功');
+                        location.href = "/h-ui/H-ui.admin/index.html";
+                    }
                 }
-            }
-        })
+            })
 
-    }
+
+        });
+
+
+
+    });
+
+
+
+ 
+    
 </script>

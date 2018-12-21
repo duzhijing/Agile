@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace AgileNews.Controllers
 {
+    [RoutePrefix("Managers")]
     public class ManagersController : ApiController
     {
         //页面尺寸

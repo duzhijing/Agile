@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace AgileNewsView.Controllers
 {
-    public class ManagerssController : Controller
+    public class ManagerssController : BaseControllerController
     {
         // GET: Managerss
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
         public ActionResult Login()
         {
             return View();
@@ -33,13 +33,13 @@ namespace AgileNewsView.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        //public int Logins(Managers managers)
-        //{
-        //    Session["Id"] = managers.Id;
-        //    Session["MenagerName"] = managers.ManagersName;
-        //    WriteDataToCookie(managers);
-        //    return 1;
-        //}
+        public int Logins(Managers managers)
+        {
+            Session["Id"] = managers.Id;
+            Session["MenagerName"] = managers.ManagersName;
+            WriteDataToCookie(managers);
+            return 1;
+        }
         /// <summary>
         /// 登录首页
         /// </summary>

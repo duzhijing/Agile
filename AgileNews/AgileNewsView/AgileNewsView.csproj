@@ -1588,6 +1588,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="style\BootstrapSouce\css\bootstrap-theme.css" />
     <Content Include="style\BootstrapSouce\css\bootstrap-theme.min.css" />
@@ -1602,6 +1603,7 @@
     <Content Include="style\BootstrapSouce\js\npm.js" />
     <Content Include="style\BootstrapSouce\js\respond.min.js" />
     <Content Include="style\jquery-1.10.2.js" />
+    <Content Include="Views\Base\picture-add.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1611,6 +1613,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminPersonController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseControllerController.cs" />
     <Compile Include="Controllers\CrawlerManageController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\ManagerssController.cs" />
@@ -1715,7 +1718,7 @@
     <Folder Include="assets\scss\.sass-cache\c64c3075ab570bf2e2c270d1fb05ff7e3db68931\" />
     <Folder Include="assets\scss\.sass-cache\d192277f41c6848ff7411af310ee7b2a42ab6d76\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Base\" />
+    <Folder Include="Views\BaseController\" />
     <Folder Include="Views\CrawlerManage\" />
   </ItemGroup>
   <ItemGroup>

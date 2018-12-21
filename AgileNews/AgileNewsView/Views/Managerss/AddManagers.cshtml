@@ -28,8 +28,11 @@
             </div>
         </div>
         <div>
-            <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="Add()" style="background-color:deeppink">
+            <button id="BtnConserve" class="layui-btn layuiadmin-btn-list" data-type="add" style="background-color:deeppink">
                 保存
+            </button>
+            <button id="BtnDisplay" class="layui-btn layuiadmin-btn-list" data-type="display" style="background-color:burlywood">
+                显示
             </button>
         </div>
     </div>
@@ -45,6 +48,44 @@
 
     $(function () {
         Show();
+        $("#BtnConserve").click(function () {
+            var Ids = [];
+            $("input[name=RoleName]:checked").each(function () {
+                Ids.push($(this).val())
+            })
+            var RoleName = [];
+            $("input[name=RoleName]:checked").each(function () {
+                RoleName.push($(this).parent().text())
+            })
+            $.ajax({
+                url: "http://localhost:8088/Managers/AddManagers",
+                type: "post",
+                data: {
+                    ManagersName: $("input[name=ManagersName]").val(),
+                    RoleId: Ids.join(','),
+                    RoleName: RoleName.join(',')
+                },
+                //"{RoleName:'" + $("input[name=RoleName]").val() + "',PowerId:'" + Ids + "',PowerName:'" + PowerNames + "'}",
+                //dataType: "json",
+                success: function (d) {
+                    if (d > 0) {
+                        alert("添加成功！");
+                    }
+                    else {
+                        alert("添加失败！");
+                    }
+                }
+            })
+
+
+
+        });
+        $("#BtnDisplay").click(function () {
+            location.href = "/Managerss/Index";
+
+
+        });
+
     })
     /* 权限加载方法*/
     function Show() {
@@ -73,7 +114,7 @@
             RoleName.push($(this).parent().text())
         })
         $.ajax({
-            url: "http://localhost:8088/AddManagers",
+            url: "http://localhost:8088/Managers/AddManagers",
             type: "post",
             data: {
                 ManagersName: $("input[name=ManagersName]").val(),

@@ -15,6 +15,11 @@
     <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+    <script src="../../layui.all.js"></script>
+    <script src="../../layui.js"></script>
+    <script src="../../polyfill.min.js"></script>
+    <script src="../../mockjs-config.js"></script>
+    <script src="../../kitadmin.js"></script>
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -24,31 +29,46 @@
     <title>角色管理</title>
 </head>
 <body>
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-    <div class="page-container">
-        <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','admin-role-add.html','800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> <span class="r">共有数据：<strong>2</strong> 条</span> </div>
-   
-        <table id="td" class="table table-border table-bordered table-hover table-bg ">
-        <thead>
+    <h1>角色管理</h1>
+    <hr />
+    <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="location.href='/Role/AddRole'" style="background-color:mediumorchid;">
+        添加角色
+    </button>
+    <div class="list">
+        <table id="tab" class="layui-table" cellspacing="0" cellpadding="0" border="0">
             <tr>
-                <th scope="col" colspan="6">角色管理</th>
+                <td>角色编号</td>
+                <td>角色名称</td>
+                <td>权限名称</td>
+                <td>创建时间</td>
+                <td>修改时间</td>
+                <td>操作</td>
             </tr>
-            <tr class="text-c">
-                <!--<th width="25"><input type="checkbox" value="" name=""></th>-->
-                <th width="40">ID</th>
-                <th width="200">角色名称</th>
-                <th width="300">创建时间</th>
-                <th width="300">结束时间</th>
-                <th width=" 200">描述</th>
-                <th width="70">操作</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        </table>
+        <ul id="list"></ul>
     </div>
+    <div style="float:left">
+        <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnFirst()" style="background-color:deeppink;">
+            首页
+        </button>
+        <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnPrev()" style="background-color:deeppink;">
+            上一页
+        </button>
+        <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnNext()" style="background-color:deeppink;">
+            下一页
+        </button>
+        <button class="layui-btn layuiadmin-btn-list" data-type="add" onclick="btnLast()" style="background-color:deeppink;">
+            尾页
+        </button>
+    </div>
+    <script src="~/polyfill.min.js"></script>
+    <script src="~/layui.js"></script>
+    <script src="~/kitadmin.js"></script>
+    <script src="~/mockjs-config.js"></script>
+    <script src="~/Content/jquery-3.3.1.js"></script>
     <!--_footer 作为公共模版分离出去-->
     <script src="lib/jquery/1.9.1/jquery.min.js"></script>
-   
+
     <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
@@ -63,46 +83,51 @@
         function admin_role_edit(title, url, id, w, h) {
             layer_show(title, url, w, h);
         }
- 
+
+
         $(function () {
+            GetRole();
+        })
+        function GetRole() {
             $.ajax({
-                url: 'http://localhost:8088/RoleService/GetRoles',
+                url: "http://localhost:8088/GetRole",
                 type: "get",
                 success: function (data) {
+                    $("#tab tr").not(":first").remove();
                     $(data).each(function (index, data) {
-                        var str = "";
-                        str += "<tr>";
-                        str += "<td width='120'>" + data.RoleID + "</td>";
-                        str += "<td width='120'>" + data.RoleName + "</td>";
-                        str += "<td width='120'>" + data.RoleUpdate + "</td>";
-                        str += "<td width='120'>" + data.RoleCreate + "</td>";
-                        str += "<td width='120'>" + data.RoleDesr + "</td>";
-                        str += "<td><a href=\"#\" onclick=\"Delete(" + data.RoleID + ",this)\">删除</a></td>";
+                        var str = "<tr>";
+                        str += "<td>" + data.Id + "</td>";
+                        str += "<td>" + data.RoleName + "</td>";
+                        str += "<td>" + data.PowerName + "</td>";
+                        str += "<td>" + data.CreateTime + "</td>";
+                        str += "<td>" + data.ModifyTime + "</td>";
+                        str += "<td><a onclick='Delete(" + data.Id + ")'>删除</a><a href='/Role/UpdateRole?Id=" + data.Id + "'>修改</a></li>";
                         str += "</tr>";
-                        $("#td").append(str);
+                        $("#tab").append(str);
+
                     })
                 }
             })
-        })
-        function Delete(id, obj) {
-            if (confirm("确定删除吗")) {
-                $.ajax({
-                    url: "http://localhost:8088/api/RoleService/RoleDelete",
-                    data: { roleId: id },
-                    type: 'get',
-                    success: function (data) {
-                        if (data > 0) {
-                            $(obj).parent().parent().remove();
-                            alert('删除成功')
-                        }
-                        else {
-                            alert('删除失败')
-                        }
+        }
+        function Delete(Id) {
+            $.ajax({
+                url: "http://localhost:8088/Role/DeleteRole",
+                type: "get",
+                data: {
+                    Id: Id
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert("删除成功!");
+                        GetRole();
                     }
-                })
-            }
-
+                    else {
+                        alert("删除失败!");
+                    }
+                }
+            })
         }
     </script>
+
 </body>
 </html>

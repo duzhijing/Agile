@@ -32,32 +32,33 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>登录名：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="AdminPersonName" name="AdminPersonName">
+                    <input type="text" name="ManagersName" />
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>密码：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="AdminPersonPassword" name="AdminPersonPassword">
+                    <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="ManagersPsw" name="ManagersPsw">
                 </div>
             </div>          
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>创建时间：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" name="AdminUpdate">
+                    <input type="text" class="input-text" value="" placeholder="" name="CreateTime">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">角色：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <span class="select-box" style="width:150px;">
-                        <select class="select" name="AdminCreateDate" size="1">
-                            <option value="0">超级管理员</option>
-                            <option value="1">管理员</option>
+                  
+                        <p>
+                            选择角色：
+                        </p>
+                        <div id="dl1" class="layui-input-block">
 
-                        </select>
-                    </span>
+                        </div>
+                 
                 </div>
             </div>
             <div class="row cl">
@@ -71,8 +72,9 @@
             </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                    <input id="Button1" type="button" value="添加" />
-                    <input id="Button2" type="button" value="显示" onclick="location.href='admin-list.html'" />
+                    <input id="BtnConserve" type="button" value="添加" />
+                    <input id="BtnDisplay" type="button" value="显示"  />
+                    
                 </div>
 
             </div>
@@ -102,20 +104,80 @@
 <script>
     $(function () {
   
-        $("#Button1").click(function () {
-            $.ajax({
-                url: 'http://localhost:8088/Api/AdminPersonService/AdminPersonAdd',
-                type: "post",
-                data: $("#formdata").serialize(),
-                success: function (d) {
-                    if (d > 0)
-                        alert('添加成功')
-                }
+        //$("#Button1").click(function () {
+        //    $.ajax({
+        //        url: 'http://localhost:8088/Api/AdminPersonService/AdminPersonAdd',
+        //        type: "post",
+        //        data: $("#formdata").serialize(),
+        //        success: function (d) {
+        //            if (d > 0)
+        //                alert('添加成功')
+        //        }
 
 
+        //    })
+        //})
+        Show();
+        $("#BtnConserve").click(function () {
+            var Ids = [];
+            $("input[name=RoleName]:checked").each(function () {
+                Ids.push($(this).val())
             })
-        })
+            var RoleName = [];
+            $("input[name=RoleName]:checked").each(function () {
+                RoleName.push($(this).parent().text())
+            })
+            $.ajax({
+                url: "http://localhost:8088/Managers/AddManagers",
+                type: "post",
+                data: {
+                    ManagersName: $("input[name=ManagersName]").val(),
+                    ManagersPsw: $("input[name=ManagersPsw]").val(),
+                    CreateTime: $("input[name=CreateTime]").val(),
+                    RoleId: Ids.join(','),
+                    RoleName: RoleName.join(',')
+                },
+                //"{RoleName:'" + $("input[name=RoleName]").val() + "',PowerId:'" + Ids + "',PowerName:'" + PowerNames + "'}",
+                //dataType: "json",
+                success: function (d) {
+                    if (d > 0) {
+                        alert("添加成功！");
+                    }
+                    else {
+                        alert("添加失败！");
+                    }
+                }
+            })
+
+
+
+        });
+        $("#BtnDisplay").click(function () {
+            location.href = "/Managerss/Index";
+
+
+        });
     })
+
+
+
+    /* 权限加载方法*/
+    function Show() {
+        $.ajax({
+            url: 'http://localhost:8088/GetRole',
+            type: 'get',
+            success: function (data) {
+                var list = '<ul>';
+                $(data).each(function (index, data) {
+                    list += ''
+                        + '<li> <input type="checkbox" name="RoleName" lay-skin="primary" value="' + data.Id + '">' + data.RoleName + '</li>'
+                        + ''
+                })
+                list += '</ul>'
+                $("#dl1").append(list);
+            }
+        })
+    }
 </script>
 
    
