@@ -57,6 +57,7 @@
     <Compile Include="IPermissionRoleService.cs" />
     <Compile Include="IPictureService.cs" />
     <Compile Include="IPowerService.cs" />
+    <Compile Include="IReadinglogService.cs" />
     <Compile Include="IRoleService.cs" />
     <Compile Include="IUsersService.cs" />
     <Compile Include="IPermissionService.cs" />

@@ -140,6 +140,7 @@
     <Compile Include="Controllers\PermissionRoleServiceController.cs" />
     <Compile Include="Controllers\PictureServiceController.cs" />
     <Compile Include="Controllers\PowerController.cs" />
+    <Compile Include="Controllers\ReadinglogApiController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\RoleServiceController.cs" />
     <Compile Include="Controllers\UsersServiceController.cs" />

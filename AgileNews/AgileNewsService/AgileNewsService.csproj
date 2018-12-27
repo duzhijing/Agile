@@ -109,6 +109,7 @@
     <Compile Include="PictureService.cs" />
     <Compile Include="PowerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadinglogService.cs" />
     <Compile Include="RoleService.cs" />
     <Compile Include="UsersService.cs" />
   </ItemGroup>

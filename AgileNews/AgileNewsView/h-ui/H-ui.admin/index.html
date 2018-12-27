@@ -248,3 +248,60 @@ var _hmt = _hmt || [];
 <!--/此乃百度统计代码，请自行删除-->
 </body>
 </html>
+<script type="text/javascript">
+    var newsName = [];
+    var readNumbers = [];
+    var myChart = echarts.intit(doucument, getElementsById('main'));
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        laydate.reader({
+            elem: '#test1'
+        });
+        layui.render({
+            elem: '#test2'
+        });
+    });
+    $(function (){
+        loadData();
+    $("#btnquery").click(function () {
+        loadData();
+    });
+    })
+    function loadData() {
+        $.ajax({
+            url: "http://localhost:8088/GetReadinglogs",
+            data: {
+                datetime1: $("#test1").val(),
+                datetime2: ("#test2").val()
+            },
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    newsName[i] = data[i].newsName;
+                    readNumbers[i] = data[i].NewsReader;
+                }
+                var option = {
+                    title: {
+                        text: '阅读量排行前10新闻'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['阅读量']
+                    },
+                    xAxis: {
+                        data: newsName
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '阅读量',
+                        type: 'bar',
+                        data: readNumbers
+                    }]
+                };
+                myChart.setOption(option);
+
+
+            }
+        });
+    }
+</script>

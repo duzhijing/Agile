@@ -69,6 +69,7 @@ namespace AgileNews
             container.RegisterType<IManagerService, ManagerService>();
             //container.RegisterType<CollectService, ICollectService>();
             container.RegisterType<ICollectService, CollectService>();
+            container.RegisterType<IReadinglogService, ReadinglogService>();
 
         }
     }
