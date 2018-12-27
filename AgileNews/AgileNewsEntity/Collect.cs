@@ -33,5 +33,9 @@ namespace AgileNewsEntity
         /// 收藏修改时间
         /// </summary>
         public DateTime? CollectLast { get; set; }
+        public string NewsTitle { get; set; }
+        public string NewsPublishDate { get; set; }
+        public string NewsSort { get; set; }
+
     }
 }
